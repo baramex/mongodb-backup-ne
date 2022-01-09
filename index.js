@@ -2,6 +2,7 @@ const fs = require("fs");
 const compressing = require('compressing');
 const MongoClient = require('mongodb').MongoClient;
 const schedule = require('node-schedule');
+require("dotenv").config();
 
 const http = require("http");
 const url = require("url");
@@ -29,10 +30,10 @@ server.listen(15203);
 
 var db;
 
-MongoClient.connect(require("./tokens.json").mongodbLink, function(err, client) {
+MongoClient.connect(process.env.DB, function(err, client) {
     console.log("Connected successfully to mongodb");
 
-    db = client.db(require("./tokens.json").dbName);
+    db = client.db(process.env.DB_NAME);
 
     schedule.scheduleJob("0 0 * * *", () => {
         var sizeBackup = 0;
